@@ -1,4 +1,4 @@
-use druid::{Date, Lens};
+use druid::{Data, Lens};
 use im::Vector;
 
 #[derive(Clone, Data, Lens, Default)]
