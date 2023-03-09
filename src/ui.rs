@@ -1,4 +1,4 @@
-use druid::{Widget, WidgetExt, Env};
+use druid::{Widget, WidgetExt, Env, EventCtx, Point, Menu, MenuItem};
 use druid::widget::{Label, Flex, TextBox, Button, List, Checkbox};
 
 use crate::data::{TodoState, TodoItem};
@@ -23,8 +23,18 @@ pub fn ui_builder() -> impl Widget<TodoState> {
         Flex::row()
             .with_child(Checkbox::new("").lens(TodoItem::checked))
             .with_child(Label::new(|data: &TodoItem, _: &Env| data.text.clone() ))
+            .with_child(Button::new("...").on_click(|ctx, data: &mut TodoItem, _env| {
+                let data_clone = data.clone();
+                let menu: Menu<TodoState> = Menu::empty()
+                    .entry(MenuItem::new("Remove").on_activate(move |_, main_data: &mut TodoState, _| {
+                        let location = main_data.todos.index_of(&data_clone).unwrap();
+                        main_data.todos.remove(location);
+                    
+                    }));
+                ctx.show_context_menu(menu, Point::new(0., 0.))
+            }))
 
-    }).lens(TodoState::todos);
+    }).lens(TodoState::todos).scroll();
     
-    Flex::column().with_child(header).with_child(todos)
+    Flex::column().with_child(header).with_flex_child(todos, 1.)
 }
