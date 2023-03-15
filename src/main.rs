@@ -3,6 +3,7 @@ use ui::ui_builder;
 
 mod ui;
 mod data;
+mod saver;
 
 fn main() {
     let main_window = WindowDesc::new(ui_builder())
