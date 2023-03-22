@@ -2,6 +2,7 @@ use druid::{Widget, WidgetExt, Env, EventCtx, Point, Menu, MenuItem, UnitPoint};
 use druid::widget::{Label, Flex, TextBox, Button, List, Checkbox, ZStack, Padding};
 
 use crate::data::{TodoState, TodoItem};
+use crate::saver::Saver;
 
 pub fn ui_builder() -> impl Widget<TodoState> {
     let header = Flex::row()
@@ -16,7 +17,8 @@ pub fn ui_builder() -> impl Widget<TodoState> {
                 data.new_text = "".to_string();
                 data.todos.push_front(TodoItem { checked: false, text })
             }
-        }));
+        }))
+    .with_child(Saver {});
 
     let todos = List::new(|| {
         // Check_/ Text
