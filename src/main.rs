@@ -10,7 +10,7 @@ mod saver;
 
 fn main() {
     let main_window = WindowDesc::new(ui_builder())
-        .title("my app thingy")
+        .title("myapp")
         .window_size((400., 400.));
 
     let stored = read_stored();
